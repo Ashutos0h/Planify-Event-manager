@@ -8,6 +8,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -17,8 +18,11 @@ model User {
   name      String?
   role      String    @default("USER") // USER, ADMIN, AGENCY_OWNER
   partyPoints Int     @default(0)
-  bookings  Booking[]
-  reviews   Review[]
+  phone       String?
+  location    String?
+  bio         String?
+  bookings    Booking[]
+  reviews     Review[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
