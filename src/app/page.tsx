@@ -3,7 +3,23 @@
 import { Search, MapPin, Star, ArrowRight, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
+
+function AuthButton() {
+  const { data: session } = useSession();
+  if (session) {
+    return (
+      <Link href="/dashboard/user" className="bg-foreground text-background px-4 py-2 rounded-full text-sm font-medium hover:bg-saffron hover:text-white transition-colors">
+        Dashboard
+      </Link>
+    );
+  }
+  return (
+    <Link href="/login" className="bg-foreground text-background px-4 py-2 rounded-full text-sm font-medium hover:bg-saffron hover:text-white transition-colors">
+      Login
+    </Link>
+  );
+}
 
 export default function Home() {
   const router = useRouter();
@@ -46,9 +62,7 @@ export default function Home() {
           <Link href="/dashboard/agency" className="hidden lg:block text-sm text-zinc-500 hover:text-saffron transition-colors">
             Agency Portal
           </Link>
-          <Link href="/login" className="bg-foreground text-background px-4 py-2 rounded-full text-sm font-medium hover:bg-saffron hover:text-white transition-colors">
-            Login
-          </Link>
+          <AuthButton />
         </div>
       </nav>
 
