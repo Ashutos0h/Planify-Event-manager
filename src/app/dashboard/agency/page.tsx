@@ -21,7 +21,7 @@ export default function AgencyDashboard() {
     const [bookings, setBookings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({
-        totalRevenue: 2450000, // Mock initial base
+        totalRevenue: 0,
         activeLeads: 0,
         completedEvents: 0,
         avgRating: 4.9
@@ -59,7 +59,7 @@ export default function AgencyDashboard() {
             ...prev,
             activeLeads: active,
             completedEvents: completed,
-            totalRevenue: 2450000 + newRevenue // Add to mock base
+            totalRevenue: newRevenue // Actual revenue only
         }));
     };
 

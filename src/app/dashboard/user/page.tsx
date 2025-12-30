@@ -51,7 +51,7 @@ export default function UserDashboard() {
         fetchBookings();
     }, []);
 
-    const totalSpent = bookings.reduce((acc, curr) => acc + curr.totalAmount, 0);
+    const totalSpent = bookings.reduce((sum, booking) => sum + booking.totalAmount, 0);
     const partyPoints = Math.floor(totalSpent * 0.01); // 1% reward points
 
     return (

@@ -24,7 +24,18 @@ export default async function AgencyProfilePage({ params }: Props) {
         notFound();
     }
 
-    const portfolio = agency.portfolio ? JSON.parse(agency.portfolio) : [];
+    let portfolio: string[] = [];
+    try {
+        if (agency.portfolio && agency.portfolio !== "" && agency.portfolio !== "[]") {
+            // Handle potential double stringification or invalid JSON
+            const parsed = JSON.parse(agency.portfolio);
+            portfolio = Array.isArray(parsed) ? parsed : [];
+        }
+    } catch (e) {
+        console.error("Failed to parse portfolio JSON:", e);
+        portfolio = [];
+    }
+
     const tags = agency.tags ? agency.tags.split(",") : [];
 
     return (
