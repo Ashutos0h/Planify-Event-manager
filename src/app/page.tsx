@@ -10,7 +10,7 @@ function AgencyLink() {
   const { data: session } = useSession();
   const role = (session?.user as any)?.role;
 
-  if (role === "USER") return null;
+  if (session && role !== "AGENCY_OWNER") return null;
 
   return (
     <Link href="/dashboard/agency" className="hidden lg:block text-sm text-zinc-500 hover:text-saffron transition-colors">
@@ -153,8 +153,9 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Link href="/festivals/diwali" className="group relative aspect-[4/5] md:aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer">
                 <img
-                  src="https://images.unsplash.com/photo-1606929253611-64c1b5e2e6f1?w=800&h=1000&fit=crop"
+                  src="https://images.unsplash.com/photo-1606929253611-64c1b5e2e6f1?w=600&q=80&fit=crop"
                   alt="Diwali Gala"
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
@@ -170,8 +171,9 @@ export default function Home() {
 
               <Link href="/festivals/holi" className="group relative aspect-[4/5] md:aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer">
                 <img
-                  src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=1000&fit=crop"
+                  src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&q=80&fit=crop"
                   alt="Holi Festival"
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
