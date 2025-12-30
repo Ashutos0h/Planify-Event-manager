@@ -12,8 +12,8 @@ import { useSession } from "next-auth/react";
 const SPENDING_DATA = [
     { month: "Jan", amount: 0 },
     { month: "Feb", amount: 0 },
-    { month: "Mar", amount: 250000 },
-    { month: "Apr", amount: 150000 },
+    { month: "Mar", amount: 0 },
+    { month: "Apr", amount: 0 },
     { month: "May", amount: 0 },
     { month: "Jun", amount: 0 },
 ];
