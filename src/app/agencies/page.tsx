@@ -1,6 +1,7 @@
 "use client";
 
 import { AgencyCard } from "@/components/AgencyCard";
+import { Navbar } from "@/components/Navbar";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { Search } from "lucide-react";
 import { useState, Suspense, useEffect } from "react";
@@ -105,27 +106,8 @@ function AgenciesContent() {
     return (
         <div className="min-h-screen bg-background text-foreground font-sans">
             {/* Navbar Header */}
-            <header className="glass sticky top-0 z-40 border-b border-white/10 px-6 lg:px-12 h-16 flex items-center justify-between">
-                <a href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-saffron to-gold rounded-lg flex items-center justify-center text-white font-bold">P</div>
-                    <span className="text-xl font-bold tracking-tight">Planify</span>
-                </a>
-                <div className="hidden md:flex items-center gap-6">
-                    <a href="/agencies" className="text-saffron font-medium">Agencies</a>
-                    <a href="/dashboard/user" className="text-sm font-medium hover:text-saffron transition-colors">Dashboard</a>
-                    <a href="/chat" className="text-sm font-medium hover:text-saffron transition-colors">Messages</a>
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
-                        <input
-                            type="text"
-                            placeholder="Search agencies..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-9 pr-4 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border-none text-sm w-64 focus:ring-1 focus:ring-saffron outline-none"
-                        />
-                    </div>
-                </div>
-            </header>
+            <Navbar />
+            <div className="pt-16"></div>
 
             <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 py-8 flex flex-col lg:flex-row gap-8">
                 {/* Sidebar */}

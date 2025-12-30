@@ -85,10 +85,10 @@ export function AgencyCard({
                 )}
 
                 <Link
-                    href={`/checkout/${id}`}
-                    className="w-full mt-2 py-2.5 rounded-lg bg-foreground text-background font-medium text-sm flex items-center justify-center gap-2 hover:bg-saffron hover:text-white transition-all shadow-sm hover:shadow-saffron/20 active:scale-95"
+                    href={`/agencies/${id}`}
+                    className="w-full mt-2 py-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium text-sm flex items-center justify-center gap-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all"
                 >
-                    Book Now <ArrowRight className="w-4 h-4" />
+                    View Profile <ArrowRight className="w-4 h-4" />
                 </Link>
             </div>
         </div>

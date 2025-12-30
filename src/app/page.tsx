@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { Navbar } from "@/components/Navbar";
 
 function AgencyLink() {
   const { data: session } = useSession();
@@ -58,27 +59,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden selection:bg-saffron selection:text-white">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass h-16 flex items-center justify-between px-6 lg:px-12">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-saffron to-gold rounded-lg flex items-center justify-center text-white font-bold">
-            P
-          </div>
-          <span className="text-xl font-bold tracking-tight">Planify</span>
-        </Link>
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium opacity-90">
-          <Link href="/agencies" className="hover:text-saffron transition-colors">Agencies</Link>
-          <Link href="/agencies" className="hover:text-saffron transition-colors">Venues</Link>
-          <Link href="/festivals" className="hover:text-saffron transition-colors">Festivals</Link>
-          <Link href="#" className="hover:text-saffron transition-colors">About</Link>
-        </div>
-        <div className="flex items-center gap-3">
-          <AgencyLink />
-          <AuthButton />
-        </div>
-      </nav>
+      <Navbar />
 
-      <main className="flex flex-col w-full">
+      <main className="flex flex-col w-full pt-16">
         {/* Hero Section */}
         <section className="relative w-full h-[90vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
           {/* Background Gradients */}
