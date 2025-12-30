@@ -91,9 +91,9 @@ export default function CheckoutPage() {
 
             // Success
             router.push('/dashboard/user');
-        } catch (error) {
+        } catch (error: any) {
             console.error("Booking Error:", error);
-            alert("Failed to process booking. Please try again.");
+            alert(error.message || "Failed to process booking. Please try again.");
         } finally {
             setIsSubmitting(false);
         }

@@ -19,9 +19,9 @@ export async function POST(request: Request) {
         const body = await request.json();
         const { agencyId, date, totalAmount, packageType } = body;
 
-        if (!agencyId || !date || !totalAmount) {
+        if (!agencyId || !date || totalAmount === undefined || totalAmount === null) {
             return NextResponse.json(
-                { error: "Missing required booking details (agencyId, date, totalAmount)" },
+                { message: "Missing required booking details (agencyId, date, totalAmount)" },
                 { status: 400 }
             );
         }
