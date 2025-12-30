@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
     try {
-        const { name, email, password } = await request.json();
+        const { name, email, password, phone, agencyName, location } = await request.json();
 
         if (!name || !email || !password) {
             return NextResponse.json(
@@ -26,14 +26,34 @@ export async function POST(request: Request) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const role = agencyName ? "AGENCY_OWNER" : "USER";
 
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                phone: phone || "",
+                role,
+                location: location || "",
             }
         });
+
+        // If it's an agency, create the agency record too
+        if (role === "AGENCY_OWNER" && agencyName) {
+            await prisma.agency.create({
+                data: {
+                    name: agencyName,
+                    location: location || "Unknown",
+                    description: "New agency",
+                    imageUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop", // Default
+                    tags: "General",
+                    portfolio: "[]",
+                    priceRangeMin: 100000,
+                    priceRangeMax: 500000
+                }
+            });
+        }
 
         // Remove password from response
         const { password: _, ...userWithoutPassword } = user;
