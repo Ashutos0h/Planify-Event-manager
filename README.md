@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Planify - Premier Event Management Platform
 
-## Getting Started
+Planify is a modern, full-stack event management platform connecting users with verified agencies for weddings, festivals, and corporate events. Built with performance and aesthetics in mind, it features role-based access control, real-time booking management, and a seamless responsive design.
 
-First, run the development server:
+![Planify Preview](https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1200&h=600&fit=crop)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
+
+- **Role-Based Authentication**: Custom dashboards for **Customers** (manage bookings) vs **Agencies** (manage services & revenue).
+- **Agency Marketplace**: Search and filter agencies by location, price, and category.
+- **Real-time Booking System**: Users can book events; Agencies can approve/reject them instantly.
+- **Dynamic Content**: Data-driven festival recommendations and trending agency lists.
+- **Secure Payments (Simulated)**: Integrated checkout flow with financial tracking.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS & Lucide Icons
+- **Database**: PostgreSQL (via [Supabase](https://supabase.com/))
+- **ORM**: Prisma
+- **Auth**: NextAuth.js
+- **Deployment**: Vercel
+
+## 📦 Getting Started
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/planify.git
+    cd planify
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up Environment Variables:**
+    Create a `.env` file in the root directory:
+    ```env
+    DATABASE_URL="your_supabase_postgres_url"
+    DIRECT_URL="your_supabase_direct_url"
+    NEXTAUTH_SECRET="your_secret_key"
+    NEXTAUTH_URL="http://localhost:3000"
+    ```
+
+4.  **Run Database Migrations:**
+    ```bash
+    npx prisma generate
+    npx prisma db push
+    ```
+
+5.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤝 Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is a personal portfolio piece. Suggestions and improvements are welcome!
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Built with ❤️ by [Your Name]*
