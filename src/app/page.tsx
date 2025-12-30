@@ -4,6 +4,7 @@ import { Search, MapPin, Star, ArrowRight, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 function AuthButton() {
   const { data: session } = useSession();
