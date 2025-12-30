@@ -3,6 +3,7 @@
 import { Home, LayoutDashboard, Calendar, Settings, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
 export function DashboardSidebar() {
@@ -53,7 +54,10 @@ export function DashboardSidebar() {
                     <Home className="w-4 h-4" />
                     Back to Home
                 </Link>
-                <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 font-medium text-sm transition-all">
+                <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 font-medium text-sm transition-all"
+                >
                     <LogOut className="w-4 h-4" />
                     Logout
                 </button>

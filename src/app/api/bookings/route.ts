@@ -19,7 +19,12 @@ export async function POST(request: Request) {
         const body = await request.json();
         const { agencyId, date, totalAmount, packageType } = body;
 
-        // ... validation ...
+        if (!agencyId || !date || !totalAmount) {
+            return NextResponse.json(
+                { error: "Missing required booking details (agencyId, date, totalAmount)" },
+                { status: 400 }
+            );
+        }
 
         const user = await prisma.user.findUnique({
             where: { email: session.user.email }
@@ -42,8 +47,6 @@ export async function POST(request: Request) {
                 status: "PENDING" // Default to PENDING now that we have flows
             }
         });
-
-        console.log("Booking created:", booking);
 
         return NextResponse.json(booking);
     } catch (error) {

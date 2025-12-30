@@ -4,7 +4,10 @@ import { DashboardSidebar } from "@/components/dashboard/Sidebar";
 import { User, Mail, Phone, MapPin, Camera, Save } from "lucide-react";
 import { useState, useEffect } from "react";
 
+import { useSession } from "next-auth/react";
+
 export default function ProfilePage() {
+    const { data: session, update } = useSession();
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [message, setMessage] = useState("");
@@ -58,6 +61,7 @@ export default function ProfilePage() {
             });
 
             if (res.ok) {
+                await update({ name: formData.name }); // Update session immediately
                 setMessage("Profile updated successfully!");
                 setIsEditing(false);
                 setTimeout(() => setMessage(""), 3000);

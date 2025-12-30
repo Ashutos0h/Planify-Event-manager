@@ -4,6 +4,7 @@ import { LeadPipeline } from "@/components/LeadPipeline";
 import { RevenueChart } from "@/components/RevenueChart";
 import { TrendingUp, Users, DollarSign, Calendar } from "lucide-react";
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
 
 // Keeping mock revenue data for chart visualization as historical data doesn't exist yet
 const MOCK_REVENUE_DATA = [
@@ -127,6 +128,12 @@ export default function AgencyDashboard() {
                     <span className="text-sm text-zinc-500 ml-2">Agency Portal</span>
                 </a>
                 <div className="flex items-center gap-4">
+                    <button
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                        className="text-sm font-medium text-red-500 hover:text-red-400 transition-colors"
+                    >
+                        Sign Out
+                    </button>
                     <div className="relative group">
                         <button className="w-9 h-9 rounded-full bg-gradient-to-br from-saffron to-gold flex items-center justify-center text-white font-bold text-sm hover:shadow-lg transition-all">
                             E
