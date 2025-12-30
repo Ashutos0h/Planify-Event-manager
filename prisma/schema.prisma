@@ -23,6 +23,7 @@ model User {
   bio         String?
   bookings    Booking[]
   reviews     Review[]
+  agency      Agency?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -41,6 +42,9 @@ model Agency {
   imageUrl        String
   portfolio       String    // JSON string of image URLs
   verified        Boolean   @default(false)
+
+  ownerId         String?   @unique
+  owner           User?     @relation(fields: [ownerId], references: [id])
   
   bookings        Booking[]
   reviews         Review[]

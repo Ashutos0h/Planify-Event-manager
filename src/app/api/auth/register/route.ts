@@ -50,7 +50,8 @@ export async function POST(request: Request) {
                     tags: "General",
                     portfolio: "[]",
                     priceRangeMin: 100000,
-                    priceRangeMax: 500000
+                    priceRangeMax: 500000,
+                    ownerId: user.id
                 }
             });
         }

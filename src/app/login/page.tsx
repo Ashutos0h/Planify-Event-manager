@@ -33,7 +33,15 @@ export default function LoginPage() {
             if (res?.error) {
                 setError("Invalid email or password");
             } else {
-                router.push("/dashboard/user"); // Or agency based on logic eventually
+                // Fetch session to check role
+                const sessionRes = await fetch("/api/auth/session");
+                const session = await sessionRes.json();
+
+                if (session?.user?.role === "AGENCY_OWNER") {
+                    router.push("/dashboard/agency");
+                } else {
+                    router.push("/dashboard/user");
+                }
             }
         } catch (err) {
             console.error(err);
