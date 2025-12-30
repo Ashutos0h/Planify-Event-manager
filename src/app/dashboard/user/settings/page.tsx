@@ -5,6 +5,7 @@ import { Bell, Shield, Wallet, Monitor, Moon, Volume2, ChevronRight, LogOut, Tra
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export default function SettingsPage() {
     const router = useRouter();
@@ -33,8 +34,7 @@ export default function SettingsPage() {
     );
 
     const handleSignOut = () => {
-        // Clear tokens here if any
-        router.push("/");
+        signOut({ callbackUrl: "/" });
     };
 
     const handleDeleteAccount = async () => {

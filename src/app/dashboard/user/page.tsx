@@ -6,6 +6,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recha
 import { useState, useEffect } from "react";
 import Link from 'next/link';
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 // Mock spending chart for now
 const SPENDING_DATA = [
@@ -29,6 +30,7 @@ interface Booking {
 }
 
 export default function UserDashboard() {
+    const { data: session } = useSession();
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -62,7 +64,7 @@ export default function UserDashboard() {
                     {/* Header */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
-                            <h1 className="text-3xl font-bold">Welcome back, Vashu!</h1>
+                            <h1 className="text-3xl font-bold">Welcome back, {session?.user?.name || "Member"}!</h1>
                             <p className="text-zinc-500">Here&apos;s what&apos;s happening with your events.</p>
                         </div>
                         <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-saffron to-gold rounded-full text-white shadow-lg shadow-saffron/20">

@@ -6,6 +6,19 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
+function AgencyLink() {
+  const { data: session } = useSession();
+  const role = (session?.user as any)?.role;
+
+  if (role === "USER") return null;
+
+  return (
+    <Link href="/dashboard/agency" className="hidden lg:block text-sm text-zinc-500 hover:text-saffron transition-colors">
+      Agency Portal
+    </Link>
+  );
+}
+
 function AuthButton() {
   const { data: session } = useSession();
   if (session) {
@@ -60,9 +73,7 @@ export default function Home() {
           <Link href="#" className="hover:text-saffron transition-colors">About</Link>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/dashboard/agency" className="hidden lg:block text-sm text-zinc-500 hover:text-saffron transition-colors">
-            Agency Portal
-          </Link>
+          <AgencyLink />
           <AuthButton />
         </div>
       </nav>
