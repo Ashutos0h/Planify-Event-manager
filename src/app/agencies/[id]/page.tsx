@@ -18,7 +18,8 @@ async function getAgency(id: string) {
 }
 
 export default async function AgencyProfilePage({ params }: Props) {
-    const agency = await getAgency(params.id);
+    const { id } = await params; // Await params for Next.js 15
+    const agency = await getAgency(id);
 
     if (!agency) {
         notFound();
