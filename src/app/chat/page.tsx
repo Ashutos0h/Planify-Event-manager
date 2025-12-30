@@ -2,7 +2,9 @@
 
 import { ChatWindow } from "@/components/ChatWindow";
 import { Search, MessageCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 // Mock conversations
 const CONVERSATIONS = [
@@ -33,17 +35,44 @@ const CONVERSATIONS = [
 ];
 
 export default function ChatPage() {
-    const [selectedChat, setSelectedChat] = useState(CONVERSATIONS[0]);
+    const searchParams = useSearchParams();
+    const agencyId = searchParams.get("agencyId");
+    const agencyName = searchParams.get("agencyName");
+
+    const [conversations, setConversations] = useState(CONVERSATIONS);
+    const [selectedChat, setSelectedChat] = useState<any>(CONVERSATIONS[0]);
+
+    useEffect(() => {
+        if (agencyId && agencyName) {
+            // Check if chat exists
+            const existing = conversations.find(c => c.id === agencyId);
+            if (existing) {
+                setSelectedChat(existing);
+            } else {
+                // Create temp new chat
+                const newChat = {
+                    id: agencyId,
+                    agencyName: decodeURIComponent(agencyName),
+                    lastMessage: "Start a conversation...",
+                    timestamp: "Just now",
+                    unread: 0,
+                    avatar: agencyName.charAt(0)
+                };
+                setConversations([newChat, ...conversations]);
+                setSelectedChat(newChat);
+            }
+        }
+    }, [agencyId, agencyName]);
 
     return (
         <div className="h-screen bg-background text-foreground font-sans flex flex-col">
             {/* Header */}
             <header className="glass border-b border-white/10 px-6 lg:px-12 h-16 flex items-center justify-between flex-shrink-0">
-                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     <div className="w-8 h-8 bg-gradient-to-br from-saffron to-gold rounded-lg flex items-center justify-center text-white font-bold">P</div>
                     <span className="text-xl font-bold tracking-tight">Planify</span>
                     <span className="text-sm text-zinc-500 ml-2">Messages</span>
-                </a>
+                </Link>
             </header>
 
             <div className="flex-1 flex overflow-hidden">
@@ -61,11 +90,11 @@ export default function ChatPage() {
                     </div>
 
                     <div className="flex-1 overflow-y-auto">
-                        {CONVERSATIONS.map((conv) => (
+                        {conversations.map((conv) => (
                             <button
                                 key={conv.id}
                                 onClick={() => setSelectedChat(conv)}
-                                className={`w-full p-4 flex items-start gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors border-b border-white/5 ${selectedChat.id === conv.id ? "bg-zinc-50 dark:bg-zinc-800/50" : ""
+                                className={`w-full p-4 flex items-start gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors border-b border-white/5 ${selectedChat?.id === conv.id ? "bg-zinc-50 dark:bg-zinc-800/50" : ""
                                     }`}
                             >
                                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-saffron to-gold flex items-center justify-center text-white font-bold flex-shrink-0">

@@ -170,7 +170,7 @@ export default async function AgencyProfilePage({ params }: Props) {
                                     </Button>
                                 </Link>
 
-                                <Link href={`/chat?agencyId=${agency.id}`} className="block w-full">
+                                <Link href={`/chat?agencyId=${agency.id}&agencyName=${encodeURIComponent(agency.name)}`} className="block w-full">
                                     <Button variant="outline" size="lg" className="w-full border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800 text-foreground font-semibold h-12">
                                         Message Agency
                                     </Button>
