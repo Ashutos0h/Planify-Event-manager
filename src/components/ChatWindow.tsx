@@ -2,72 +2,106 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, Paperclip, MoreVertical, Phone, Video } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 interface Message {
     id: string;
-    sender: "user" | "agency";
+    senderRole: "USER" | "AGENCY";
     content: string;
     timestamp: string;
+    createdAt: string;
 }
 
 interface ChatWindowProps {
+    conversationId: string;
     agencyName: string;
     agencyAvatar?: string;
 }
 
-export function ChatWindow({ agencyName, agencyAvatar }: ChatWindowProps) {
+export function ChatWindow({ conversationId, agencyName, agencyAvatar }: ChatWindowProps) {
+    const { data: session } = useSession();
     const [messages, setMessages] = useState<Message[]>([]);
-
-    // Simulating fetching messages for this agency
-    useEffect(() => {
-        // In a real app, fetch messages by agencyId here
-        // For now, we'll set a custom welcome message
-        setMessages([
-            {
-                id: "1",
-                sender: "agency",
-                content: `Hello! This is ${agencyName}. How can we help you today?`,
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }
-        ]);
-    }, [agencyName]);
     const [inputValue, setInputValue] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
+    const [loading, setLoading] = useState(true);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
+    // Fetch Messages & Poll
+    useEffect(() => {
+        if (!conversationId) return;
+
+        const fetchMessages = async () => {
+            try {
+                const res = await fetch(`/api/chat/${conversationId}/messages`);
+                if (res.ok) {
+                    const data = await res.json();
+                    // Transform data if needed or just set it
+                    setMessages(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch messages", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMessages();
+        const interval = setInterval(fetchMessages, 3000); // Poll every 3s
+        return () => clearInterval(interval);
+
+    }, [conversationId]);
+
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (!inputValue.trim()) return;
 
-        const newMessage: Message = {
+        const tempData: any = {
             id: Date.now().toString(),
-            sender: "user",
+            senderRole: "USER", // Optimistic UI assumption, backend corrects it
             content: inputValue,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            createdAt: new Date().toISOString()
         };
 
-        setMessages([...messages, newMessage]);
+        // Optimistic update (optional, but good for UX)
+        // setMessages(prev => [...prev, tempData]); 
         setInputValue("");
 
-        // Simulate agency typing
-        setIsTyping(true);
-        setTimeout(() => {
-            setIsTyping(false);
-            const response: Message = {
-                id: (Date.now() + 1).toString(),
-                sender: "agency",
-                content: "Thank you for your message! Our team will get back to you shortly with more details.",
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
-            setMessages((prev) => [...prev, response]);
-        }, 2000);
+        try {
+            const res = await fetch(`/api/chat/${conversationId}/messages`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: tempData.content })
+            });
+
+            if (res.ok) {
+                // If successful, the polling will pick it up, or we can manually append the real response
+                const newMessage = await res.json();
+                setMessages((prev) => [...prev, newMessage]);
+            }
+        } catch (error) {
+            console.error("Failed to send message", error);
+        }
+    };
+
+    const formatTime = (dateStr: string) => {
+        return new Date(dateStr).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
+    const isUserSender = (role: string) => {
+        // If current user is agency owner, then their sent messages are AGENCY role
+        // If current user is normal user, then their sent messages are USER role
+        // This logic depends on what visual side we want.
+        // Simpler: If I am logged in as Agency, "AGENCY" messages are ME (Right side).
+
+        const isAgencyUser = (session?.user as any)?.role === "AGENCY_OWNER";
+        if (isAgencyUser) return role === "AGENCY";
+        return role === "USER";
     };
 
     return (
@@ -77,7 +111,7 @@ export function ChatWindow({ agencyName, agencyAvatar }: ChatWindowProps) {
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-saffron to-gold flex items-center justify-center text-white font-bold overflow-hidden">
                         {agencyAvatar ? (
-                            <img src={agencyAvatar} alt={agencyName} className="w-full h-full object-cover" />
+                            <span className="text-xl">{agencyAvatar}</span>
                         ) : (
                             agencyName.charAt(0)
                         )}
@@ -102,36 +136,29 @@ export function ChatWindow({ agencyName, agencyAvatar }: ChatWindowProps) {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                {messages.map((message) => (
-                    <div
-                        key={message.id}
-                        className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
-                    >
+                {loading ? (
+                    <div className="text-center text-zinc-500 mt-10">Loading messages...</div>
+                ) : messages.map((message) => {
+                    const isMe = isUserSender(message.senderRole);
+                    return (
                         <div
-                            className={`max-w-[70%] rounded-2xl px-4 py-2 ${message.sender === "user"
-                                ? "bg-gradient-to-r from-saffron to-gold text-white"
-                                : "glass border border-white/10"
-                                }`}
+                            key={message.id}
+                            className={`flex ${isMe ? "justify-end" : "justify-start"}`}
                         >
-                            <p className="text-sm">{message.content}</p>
-                            <p className={`text-xs mt-1 ${message.sender === "user" ? "text-white/70" : "text-zinc-500"}`}>
-                                {message.timestamp}
-                            </p>
-                        </div>
-                    </div>
-                ))}
-
-                {isTyping && (
-                    <div className="flex justify-start">
-                        <div className="glass border border-white/10 rounded-2xl px-4 py-3">
-                            <div className="flex gap-1">
-                                <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                                <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                                <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                            <div
+                                className={`max-w-[70%] rounded-2xl px-4 py-2 ${isMe
+                                    ? "bg-gradient-to-r from-saffron to-gold text-white"
+                                    : "glass border border-white/10"
+                                    }`}
+                            >
+                                <p className="text-sm">{message.content}</p>
+                                <p className={`text-xs mt-1 ${isMe ? "text-white/70" : "text-zinc-500"}`}>
+                                    {formatTime(message.createdAt)}
+                                </p>
                             </div>
                         </div>
-                    </div>
-                )}
+                    );
+                })}
                 <div ref={messagesEndRef} />
             </div>
 

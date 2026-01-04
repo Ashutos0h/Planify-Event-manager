@@ -23,6 +23,7 @@ model User {
   bio         String?
   bookings    Booking[]
   reviews     Review[]
+  conversations Conversation[]
   agency      Agency?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -48,6 +49,7 @@ model Agency {
   
   bookings        Booking[]
   reviews         Review[]
+  conversations   Conversation[]
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
@@ -79,4 +81,36 @@ model Review {
   rating    Int
   comment   String
   createdAt DateTime @default(now())
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  
+  agencyId  String
+  agency    Agency    @relation(fields: [agencyId], references: [id])
+  
+  messages  Message[]
+  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([userId, agencyId]) // Ensure one conversation per user-agency pair
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  senderId       String       // User ID or Agency Owner ID
+  senderRole     String       // "USER" or "AGENCY"
+  content        String
+  
+  read           Boolean      @default(false)
+  
+  createdAt      DateTime     @default(now())
 }
