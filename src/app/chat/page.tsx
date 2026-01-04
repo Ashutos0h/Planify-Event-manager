@@ -120,7 +120,7 @@ export default function ChatPage() {
                 {/* Main Chat Area */}
                 <main className="flex-1 flex flex-col">
                     {selectedChat ? (
-                        <ChatWindow agencyName={selectedChat.agencyName} />
+                        <ChatWindow key={selectedChat.id} agencyName={selectedChat.agencyName} />
                     ) : (
                         <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
                             <div className="w-20 h-20 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-4">

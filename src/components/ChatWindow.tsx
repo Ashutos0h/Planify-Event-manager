@@ -16,26 +16,21 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ agencyName, agencyAvatar }: ChatWindowProps) {
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            id: "1",
-            sender: "agency",
-            content: "Hello! Thank you for your interest in our services. How can we help you plan your event?",
-            timestamp: "10:30 AM"
-        },
-        {
-            id: "2",
-            sender: "user",
-            content: "Hi! I'm planning a wedding for March 2025. Can you help with venue and catering?",
-            timestamp: "10:32 AM"
-        },
-        {
-            id: "3",
-            sender: "agency",
-            content: "Absolutely! We'd love to help. Do you have a specific location in mind?",
-            timestamp: "10:33 AM"
-        }
-    ]);
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    // Simulating fetching messages for this agency
+    useEffect(() => {
+        // In a real app, fetch messages by agencyId here
+        // For now, we'll set a custom welcome message
+        setMessages([
+            {
+                id: "1",
+                sender: "agency",
+                content: `Hello! This is ${agencyName}. How can we help you today?`,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }
+        ]);
+    }, [agencyName]);
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
