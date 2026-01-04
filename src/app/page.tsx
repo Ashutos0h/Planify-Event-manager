@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
-import { FeaturedAgencies } from "@/components/FeaturedAgencies";
 
 function AgencyLink() {
   const { data: session } = useSession();
@@ -208,8 +207,103 @@ export default function Home() {
               </Link>
             </div>
 
-            <FeaturedAgencies />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="glass rounded-xl p-4 hover:border-saffron/50 transition-colors group">
+                <div className="relative aspect-video w-full rounded-lg mb-4 overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop"
+                    alt="Royal Weddings Portfolio"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                </div>
+                <h3 className="font-bold text-lg">Royal Weddings</h3>
+                <div className="flex items-center gap-1 text-gold text-sm mb-2">
+                  <Star className="w-4 h-4 fill-current" />
+                  <span className="text-foreground font-medium">4.9</span>
+                  <span className="text-zinc-500">(128)</span>
+                </div>
+                <p className="text-sm text-zinc-500 line-clamp-2 mb-4">
+                  Specializing in heritage weddings and luxury events across Rajasthan.
+                </p>
+                <Link href="/agencies" className="w-full py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 font-medium text-sm group-hover:bg-saffron group-hover:text-white group-hover:border-saffron transition-colors block text-center">
+                  View Profile
+                </Link>
+              </div>
 
+              <div className="glass rounded-xl p-4 hover:border-saffron/50 transition-colors group">
+                <div className="relative aspect-video w-full rounded-lg mb-4 overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop"
+                    alt="Urban Events Portfolio"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                </div>
+                <h3 className="font-bold text-lg">Urban Events Pro</h3>
+                <div className="flex items-center gap-1 text-gold text-sm mb-2">
+                  <Star className="w-4 h-4 fill-current" />
+                  <span className="text-foreground font-medium">4.7</span>
+                  <span className="text-zinc-500">(85)</span>
+                </div>
+                <p className="text-sm text-zinc-500 line-clamp-2 mb-4">
+                  Modern corporate events and tech conferences in Mumbai.
+                </p>
+                <Link href="/agencies" className="w-full py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 font-medium text-sm group-hover:bg-saffron group-hover:text-white group-hover:border-saffron transition-colors block text-center">
+                  View Profile
+                </Link>
+              </div>
+
+              <div className="glass rounded-xl p-4 hover:border-saffron/50 transition-colors group">
+                <div className="relative aspect-video w-full rounded-lg mb-4 overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=300&fit=crop"
+                    alt="Goa Vibes Portfolio"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                </div>
+                <h3 className="font-bold text-lg">Goa Vibes Planners</h3>
+                <div className="flex items-center gap-1 text-gold text-sm mb-2">
+                  <Star className="w-4 h-4 fill-current" />
+                  <span className="text-foreground font-medium">4.8</span>
+                  <span className="text-zinc-500">(210)</span>
+                </div>
+                <p className="text-sm text-zinc-500 line-clamp-2 mb-4">
+                  Beach parties and destination weddings in Goa.
+                </p>
+                <Link href="/agencies" className="w-full py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 font-medium text-sm group-hover:bg-saffron group-hover:text-white group-hover:border-saffron transition-colors block text-center">
+                  View Profile
+                </Link>
+              </div>
+
+              <div className="glass rounded-xl p-4 hover:border-saffron/50 transition-colors group">
+                <div className="relative aspect-video w-full rounded-lg mb-4 overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop"
+                    alt="Elite Decor Portfolio"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  />
+                </div>
+                <h3 className="font-bold text-lg">Elite Decor & Catering</h3>
+                <div className="flex items-center gap-1 text-gold text-sm mb-2">
+                  <Star className="w-4 h-4 fill-current" />
+                  <span className="text-foreground font-medium">4.6</span>
+                  <span className="text-zinc-500">(94)</span>
+                </div>
+                <p className="text-sm text-zinc-500 line-clamp-2 mb-4">
+                  Full-service catering and premium decor in Delhi NCR.
+                </p>
+                <Link href="/agencies" className="w-full py-2 rounded-lg border border-zinc-200 dark:border-zinc-800 font-medium text-sm group-hover:bg-saffron group-hover:text-white group-hover:border-saffron transition-colors block text-center">
+                  View Profile
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
       </main>
