@@ -9,6 +9,8 @@ interface EventDetailsProps {
     setGuests: (num: number) => void;
     venue: string;
     setVenue: (venue: string) => void;
+    eventType: string;
+    setEventType: (type: string) => void;
 }
 
 export function EventDetails({
@@ -17,7 +19,9 @@ export function EventDetails({
     guests,
     setGuests,
     venue,
-    setVenue
+    setVenue,
+    eventType,
+    setEventType
 }: EventDetailsProps) {
     const isMuhurat = (dateString: string) => {
         // Mock logic for auspicious dates
@@ -33,6 +37,25 @@ export function EventDetails({
             </div>
 
             <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 space-y-6 border border-zinc-200 dark:border-zinc-800">
+
+                {/* Event Type */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium flex items-center gap-2">
+                        <Info className="w-4 h-4 text-purple-500" /> Event Type
+                    </label>
+                    <select
+                        value={eventType}
+                        onChange={(e) => setEventType(e.target.value)}
+                        className="w-full p-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-transparent focus:ring-2 focus:ring-purple-500 outline-none"
+                    >
+                        <option value="Wedding">Wedding</option>
+                        <option value="Birthday">Birthday</option>
+                        <option value="Corporate">Corporate Event</option>
+                        <option value="Concert">Concert / Festival</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
                 {/* Date Picker */}
                 <div className="space-y-2">

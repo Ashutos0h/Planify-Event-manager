@@ -29,6 +29,7 @@ export default function CheckoutPage() {
     const [eventDate, setEventDate] = useState("");
     const [guests, setGuests] = useState(0);
     const [venue, setVenue] = useState("");
+    const [eventType, setEventType] = useState("Wedding");
 
     useEffect(() => {
         const fetchAgency = async () => {
@@ -80,7 +81,8 @@ export default function CheckoutPage() {
                     agencyId: agency.id,
                     date: eventDate,
                     totalAmount: packagePrice,
-                    packageType: selectedPackage
+                    packageType: selectedPackage,
+                    eventType
                 }),
             });
 
@@ -168,6 +170,8 @@ export default function CheckoutPage() {
                             setGuests={setGuests}
                             venue={venue}
                             setVenue={setVenue}
+                            eventType={eventType}
+                            setEventType={setEventType}
                         />
                     )}
 

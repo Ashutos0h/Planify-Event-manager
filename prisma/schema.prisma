@@ -61,6 +61,7 @@ model Booking {
   
   date        DateTime
   status      String   @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  eventType   String   @default("Other")   // Wedding, Birthday, Corporate, etc.
   packageType String   // BASIC, STANDARD, PREMIUM
   totalAmount Float
   

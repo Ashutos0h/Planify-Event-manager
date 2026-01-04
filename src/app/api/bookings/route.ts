@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
-        const { agencyId, date, totalAmount, packageType } = body;
+        const { agencyId, date, totalAmount, packageType, eventType } = body;
 
         if (!agencyId || !date || totalAmount === undefined || totalAmount === null) {
             return NextResponse.json(
@@ -44,6 +44,7 @@ export async function POST(request: Request) {
                 date: new Date(date),
                 totalAmount,
                 packageType: packageType || "CUSTOM",
+                eventType: eventType || "Other",
                 status: "PENDING" // Default to PENDING now that we have flows
             }
         });
