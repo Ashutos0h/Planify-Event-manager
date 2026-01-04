@@ -3,6 +3,7 @@
 import { AgencyCard } from "@/components/AgencyCard";
 import { Navbar } from "@/components/Navbar";
 import { FilterSidebar } from "@/components/FilterSidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Search } from "lucide-react";
 import { useState, Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
@@ -34,6 +35,7 @@ function AgenciesContent() {
     // Data State
     const [agencies, setAgencies] = useState<Agency[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     // Filter State
     const [searchQuery, setSearchQuery] = useState(() => searchParams.get("q") || "");
@@ -50,11 +52,12 @@ function AgenciesContent() {
         const fetchAgencies = async () => {
             try {
                 const res = await fetch('/api/agencies');
-                if (!res.ok) throw new Error('Failed to fetch');
+                if (!res.ok) throw new Error('Failed to fetch agencies');
                 const data = await res.json();
                 setAgencies(data);
             } catch (error) {
                 console.error("Error loading agencies:", error);
+                setError("Failed to load agencies. Please try again later.");
             } finally {
                 setLoading(false);
             }
@@ -136,7 +139,12 @@ function AgenciesContent() {
                         </select>
                     </div>
 
-                    {loading ? (
+                    {error ? (
+                        <div className="py-20 text-center text-red-500 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-200 dark:border-red-900">
+                            <p>{error}</p>
+                            <button onClick={() => window.location.reload()} className="mt-4 underline">Retry</button>
+                        </div>
+                    ) : loading ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                             {[1, 2, 3, 4, 5, 6].map(i => (
                                 <div key={i} className="h-96 rounded-xl bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
@@ -154,17 +162,37 @@ function AgenciesContent() {
                     )}
 
                     {!loading && filteredAgencies.length === 0 && (
-                        <div className="py-20 text-center glass rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800">
-                            <p className="text-zinc-500 text-lg">No agencies found matching your current filters.</p>
-                            <button
-                                onClick={() => {
-                                    setFilters(INITIAL_FILTERS);
-                                    setSearchQuery("");
-                                }}
-                                className="mt-4 text-saffron font-bold hover:underline"
-                            >
-                                Clear All Filters
-                            </button>
+                        <div className="flex flex-col gap-12">
+                            <div className="py-20 text-center glass rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-800">
+                                <p className="text-zinc-500 text-lg">No agencies found matching your current filters.</p>
+                                <button
+                                    onClick={() => {
+                                        setFilters(INITIAL_FILTERS);
+                                        setSearchQuery("");
+                                    }}
+                                    className="mt-4 text-saffron font-bold hover:underline"
+                                >
+                                    Clear All Filters
+                                </button>
+                            </div>
+
+                            {/* Smart Fallback Suggestions */}
+                            <div>
+                                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                    While you are here, check out these Top Rated Agencies
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                                    {agencies
+                                        .sort((a, b) => b.rating - a.rating)
+                                        .slice(0, 3)
+                                        .map((agency) => (
+                                            <AgencyCard
+                                                key={agency.id}
+                                                {...agency}
+                                            />
+                                        ))}
+                                </div>
+                            </div>
                         </div>
                     )}
                 </main>

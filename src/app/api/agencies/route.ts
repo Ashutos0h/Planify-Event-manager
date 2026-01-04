@@ -15,11 +15,20 @@ export async function GET(request: Request) {
         });
 
         // Parse the tags and portfolio (stored as strings in SQLite) back to arrays/JSON
-        const formattedAgencies = agencies.map(agency => ({
-            ...agency,
-            tags: agency.tags.split(','),
-            portfolio: JSON.parse(agency.portfolio) as string[]
-        }));
+        const formattedAgencies = agencies.map(agency => {
+            let portfolio = [];
+            try {
+                portfolio = JSON.parse(agency.portfolio);
+                if (!Array.isArray(portfolio)) portfolio = [];
+            } catch (e) {
+                portfolio = [];
+            }
+            return {
+                ...agency,
+                tags: agency.tags ? agency.tags.split(',') : [],
+                portfolio
+            };
+        });
 
         return NextResponse.json(formattedAgencies);
     } catch (error) {

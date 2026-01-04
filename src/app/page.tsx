@@ -41,7 +41,8 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [locationQuery, setLocationQuery] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!searchQuery && !locationQuery) return;
 
     const params = new URLSearchParams();
@@ -87,7 +88,7 @@ export default function Home() {
             </p>
 
             {/* Glass Search Bar */}
-            <div className="w-full max-w-3xl glass rounded-2xl p-2 mt-8 flex flex-col md:flex-row gap-2 shadow-2xl">
+            <form onSubmit={handleSearch} className="w-full max-w-3xl glass rounded-2xl p-2 mt-8 flex flex-col md:flex-row gap-2 shadow-2xl">
               <div className="flex-1 flex items-center gap-3 px-4 h-12 md:h-14 bg-white/50 dark:bg-black/20 rounded-xl">
                 <Search className="w-5 h-5 text-zinc-400" />
                 <input
@@ -96,7 +97,7 @@ export default function Home() {
                   className="bg-transparent border-none outline-none w-full text-sm md:text-base placeholder:text-zinc-400"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
+                  aria-label="Search events"
                 />
               </div>
               <div className="flex-1 flex items-center gap-3 px-4 h-12 md:h-14 bg-white/50 dark:bg-black/20 rounded-xl">
@@ -107,16 +108,16 @@ export default function Home() {
                   className="bg-transparent border-none outline-none w-full text-sm md:text-base placeholder:text-zinc-400"
                   value={locationQuery}
                   onChange={(e) => setLocationQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
+                  aria-label="Location"
                 />
               </div>
               <button
-                onClick={handleSearch}
+                type="submit"
                 className="h-12 md:h-14 px-8 bg-gradient-to-r from-saffron to-gold text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-saffron/25 transition-all active:scale-95"
               >
                 Search
               </button>
-            </div>
+            </form>
           </div>
         </section>
 
