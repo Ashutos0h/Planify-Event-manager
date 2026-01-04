@@ -105,6 +105,10 @@ function AgenciesContent() {
         return matchesSearch && matchesLocation && matchesBudget && matchesEventType && matchesRating;
     });
 
+    console.log("Agencies State:", agencies.length, agencies);
+    console.log("Filtered State:", filteredAgencies.length);
+    console.log("Current Filters:", filters, "Search:", searchQuery);
+
     return (
         <div className="min-h-screen bg-background text-foreground font-sans">
             {/* Navbar Header */}
