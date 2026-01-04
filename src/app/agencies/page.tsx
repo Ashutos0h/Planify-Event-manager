@@ -34,6 +34,7 @@ function AgenciesContent() {
     // Data State
     const [agencies, setAgencies] = useState<Agency[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     // Filter State
     const [searchQuery, setSearchQuery] = useState(() => searchParams.get("q") || "");
@@ -55,6 +56,7 @@ function AgenciesContent() {
                 setAgencies(data);
             } catch (error) {
                 console.error("Error loading agencies:", error);
+                setError("Failed to load agencies.");
             } finally {
                 setLoading(false);
             }
@@ -136,7 +138,12 @@ function AgenciesContent() {
                         </select>
                     </div>
 
-                    {loading ? (
+                    {error ? (
+                        <div className="py-20 text-center text-red-500 bg-red-50 dark:bg-red-900/10 rounded-2xl border border-red-200 dark:border-red-900">
+                            <p>{error}</p>
+                            <button onClick={() => window.location.reload()} className="mt-4 underline">Retry</button>
+                        </div>
+                    ) : loading ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                             {[1, 2, 3, 4, 5, 6].map(i => (
                                 <div key={i} className="h-96 rounded-xl bg-zinc-100 dark:bg-zinc-800 animate-pulse" />

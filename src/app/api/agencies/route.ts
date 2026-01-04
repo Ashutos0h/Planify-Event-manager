@@ -34,7 +34,7 @@ export async function GET(request: Request) {
     } catch (error) {
         console.error("Error fetching agencies:", error);
         return NextResponse.json(
-            { error: "Failed to fetch agencies" },
+            { error: "Failed to fetch agencies", details: error instanceof Error ? error.message : String(error) },
             { status: 500 }
         );
     }
