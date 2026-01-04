@@ -2,7 +2,7 @@
 
 import { ChatWindow } from "@/components/ChatWindow";
 import { Search, MessageCircle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -34,7 +34,7 @@ const CONVERSATIONS = [
     }
 ];
 
-export default function ChatPage() {
+function ChatPageContent() {
     const searchParams = useSearchParams();
     const agencyId = searchParams.get("agencyId");
     const agencyName = searchParams.get("agencyName");
@@ -133,5 +133,13 @@ export default function ChatPage() {
                 </main>
             </div>
         </div>
+    );
+}
+
+export default function ChatPage() {
+    return (
+        <Suspense fallback={<div>Loading chats...</div>}>
+            <ChatPageContent />
+        </Suspense>
     );
 }
