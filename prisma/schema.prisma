@@ -97,7 +97,9 @@ model Conversation {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  @@unique([userId, agencyId]) // Ensure one conversation per user-agency pair
+  @@unique([userId, agencyId])
+  @@index([userId])
+  @@index([agencyId])
 }
 
 model Message {
@@ -113,4 +115,6 @@ model Message {
   read           Boolean      @default(false)
   
   createdAt      DateTime     @default(now())
+
+  @@index([conversationId])
 }

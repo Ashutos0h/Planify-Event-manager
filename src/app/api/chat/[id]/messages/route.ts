@@ -19,10 +19,12 @@ export async function GET(
 
         const messages = await prisma.message.findMany({
             where: { conversationId },
-            orderBy: { createdAt: 'asc' } // Oldest first
+            orderBy: { createdAt: 'desc' }, // Newest first
+            take: 50
         });
 
-        return NextResponse.json(messages);
+        // Reverse to show oldest first in UI
+        return NextResponse.json(messages.reverse());
 
     } catch (error) {
         console.error("Error fetching messages:", error);
