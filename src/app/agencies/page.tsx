@@ -46,6 +46,8 @@ function AgenciesContent() {
         };
     });
 
+    const [showFilters, setShowFilters] = useState(false);
+
     // Fetch Agencies from API
     useEffect(() => {
         const fetchAgencies = async () => {
@@ -105,30 +107,58 @@ function AgenciesContent() {
         return matchesSearch && matchesLocation && matchesBudget && matchesEventType && matchesRating;
     });
 
-    console.log("Agencies State:", agencies.length, agencies);
-    console.log("Filtered State:", filteredAgencies.length);
-    console.log("Current Filters:", filters, "Search:", searchQuery);
-
     return (
         <div className="min-h-screen bg-background text-foreground font-sans">
             {/* Navbar Header */}
             <Navbar />
             <div className="pt-16"></div>
 
-            <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 py-8 flex flex-col lg:flex-row gap-8">
-                {/* Sidebar */}
-                <FilterSidebar
-                    filters={filters}
-                    onFilterChange={setFilters}
-                    onReset={() => {
-                        setFilters(INITIAL_FILTERS);
-                        setSearchQuery("");
-                    }}
-                />
+            <div className="max-w-screen-2xl mx-auto px-6 lg:px-12 py-8 flex flex-col lg:flex-row gap-8 relative">
+                {/* Mobile Filter Toggle */}
+                <div className="lg:hidden mb-4 flex justify-between items-center w-full">
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-800 rounded-lg shadow-sm text-sm font-medium border border-zinc-200 dark:border-zinc-700"
+                    >
+                        <Search className="w-4 h-4" /> Filters
+                    </button>
+                    <div className="flex-1"></div>
+                    <select className="bg-zinc-100 dark:bg-zinc-800 border-none rounded-lg text-sm px-3 py-2 cursor-pointer outline-none focus:ring-1 focus:ring-saffron">
+                        <option>Sort by: Recommended</option>
+                        <option>Price: Low to High</option>
+                        <option>Rating: High to Low</option>
+                    </select>
+                </div>
+
+                {/* Sidebar - Mobile Overlay or Desktop Sidebar */}
+                <div className={`
+                    fixed inset-0 z-40 bg-black/50 lg:hidden transition-opacity ${showFilters ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+                `} onClick={() => setShowFilters(false)} />
+
+                <div className={`
+                    fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-zinc-900 shadow-2xl transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-auto lg:shadow-none lg:bg-transparent lg:block
+                    ${showFilters ? 'translate-x-0' : '-translate-x-full'}
+                `}>
+                    <div className="h-full overflow-y-auto p-4 lg:p-0">
+                        <div className="flex justify-between items-center lg:hidden mb-4">
+                            <h2 className="font-bold text-lg">Filters</h2>
+                            <button onClick={() => setShowFilters(false)} className="p-2">✕</button>
+                        </div>
+                        <FilterSidebar
+                            filters={filters}
+                            onFilterChange={setFilters}
+                            onReset={() => {
+                                setFilters(INITIAL_FILTERS);
+                                setSearchQuery("");
+                                setShowFilters(false);
+                            }}
+                        />
+                    </div>
+                </div>
 
                 {/* Main Content */}
                 <main className="flex-1">
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="hidden lg:flex items-center justify-between mb-6">
                         <div>
                             <h1 className="text-2xl font-bold">Browse Agencies</h1>
                             <p className="text-zinc-500 text-sm">

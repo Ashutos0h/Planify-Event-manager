@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Paperclip, MoreVertical, Phone, Video } from "lucide-react";
+import { Send, Paperclip, MoreVertical, Phone, Video, ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 interface Message {
@@ -16,9 +16,10 @@ interface ChatWindowProps {
     conversationId: string;
     agencyName: string;
     agencyAvatar?: string;
+    onBack?: () => void;
 }
 
-export function ChatWindow({ conversationId, agencyName, agencyAvatar }: ChatWindowProps) {
+export function ChatWindow({ conversationId, agencyName, agencyAvatar, onBack }: ChatWindowProps) {
     const { data: session } = useSession();
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState("");
@@ -109,6 +110,11 @@ export function ChatWindow({ conversationId, agencyName, agencyAvatar }: ChatWin
             {/* Chat Header */}
             <div className="glass border-b border-white/10 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
+                    {onBack && (
+                        <button onClick={onBack} className="md:hidden p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors">
+                            <ArrowRight className="w-5 h-5 rotate-180" />
+                        </button>
+                    )}
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-saffron to-gold flex items-center justify-center text-white font-bold overflow-hidden">
                         {agencyAvatar ? (
                             <span className="text-xl">{agencyAvatar}</span>

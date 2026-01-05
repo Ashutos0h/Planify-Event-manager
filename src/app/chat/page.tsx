@@ -130,7 +130,7 @@ function ChatPageContent() {
 
             <div className="flex-1 flex overflow-hidden">
                 {/* Sidebar - Conversation List */}
-                <aside className="w-80 border-r border-white/10 glass flex flex-col">
+                <aside className={`w-full md:w-80 border-r border-white/10 glass flex flex-col ${selectedChat ? 'hidden md:flex' : 'flex'}`}>
                     <div className="p-4 border-b border-white/10">
                         <div className="relative">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
@@ -176,13 +176,14 @@ function ChatPageContent() {
                 </aside>
 
                 {/* Main Chat Area */}
-                <main className="flex-1 flex flex-col">
+                <main className={`flex-1 flex flex-col ${selectedChat ? 'flex' : 'hidden md:flex'}`}>
                     {selectedChat ? (
                         <ChatWindow
                             key={selectedChat.id}
                             conversationId={selectedChat.id}
                             agencyName={getChatName(selectedChat)}
                             agencyAvatar={getChatAvatar(selectedChat) || undefined}
+                            onBack={() => setSelectedChat(null)}
                         />
                     ) : (
                         <div className="flex-1 flex flex-col items-center justify-center text-center p-8">

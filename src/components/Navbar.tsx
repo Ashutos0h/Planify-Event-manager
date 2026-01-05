@@ -87,7 +87,7 @@ export function Navbar() {
                             </div>
                         </div>
                     ) : (
-                        <div className="flex items-center gap-3">
+                        <div className="items-center gap-3 hidden md:flex">
                             <Link href="/login" className="text-sm font-medium hover:text-saffron transition-colors">Login</Link>
                             <Link href="/signup">
                                 <Button className="bg-foreground text-background hover:bg-saffron hover:text-white rounded-full h-9 px-5">
@@ -96,8 +96,49 @@ export function Navbar() {
                             </Link>
                         </div>
                     )}
+
+                    {/* Mobile Menu Toggle */}
+                    <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                        {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
+
                 </div>
             </div>
+
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+                <div className="md:hidden fixed inset-0 z-40 bg-background/95 backdrop-blur-md pt-20 px-6 animate-in slide-in-from-top-10">
+                    <div className="flex flex-col gap-6 text-lg font-medium">
+                        {!isAgency && (
+                            <>
+                                <Link href="/agencies" onClick={() => setIsMenuOpen(false)}>Agencies</Link>
+                                <Link href="/agencies" onClick={() => setIsMenuOpen(false)}>Venues</Link>
+                                <Link href="/festivals" onClick={() => setIsMenuOpen(false)}>Festivals</Link>
+                                <Link href="#" onClick={() => setIsMenuOpen(false)}>About</Link>
+                            </>
+                        )}
+                        {isAgency && (
+                            <>
+                                <Link href="/dashboard/agency" onClick={() => setIsMenuOpen(false)}>Overview</Link>
+                                <Link href="/dashboard/agency/profile" onClick={() => setIsMenuOpen(false)}>My Profile</Link>
+                            </>
+                        )}
+
+                        <div className="h-px bg-white/10 my-2"></div>
+
+                        {!session ? (
+                            <div className="flex flex-col gap-4">
+                                <Link href="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                                <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="text-saffron">Sign Up</Link>
+                            </div>
+                        ) : (
+                            <Link href={isAgency ? "/dashboard/agency" : "/dashboard/user"} onClick={() => setIsMenuOpen(false)}>
+                                Go to Dashboard
+                            </Link>
+                        )}
+                    </div>
+                </div>
+            )}
         </nav>
     );
 }
