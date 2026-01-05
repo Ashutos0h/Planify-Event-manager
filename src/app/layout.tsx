@@ -3,8 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Providers } from "@/components/Providers";
-import { Toaster } from "@/components/ui/toaster";
-import { BudgetBuddy } from "@/components/BudgetBuddy";
+import dynamic from "next/dynamic";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +16,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
   display: "swap",
 });
+
+// Lazy load non-critical components to reduce TBT and LCP interference
+const BudgetBuddy = dynamic(() => import("@/components/BudgetBuddy").then(mod => mod.BudgetBuddy), { ssr: false });
+const Toaster = dynamic(() => import("@/components/ui/toaster").then(mod => mod.Toaster), { ssr: false });
 
 export const metadata: Metadata = {
   title: "Planify - Premium Event Management",
@@ -66,6 +69,6 @@ export default function RootLayout({
           <Footer />
         </Providers>
       </body>
-    </html >
+    </html>
   );
 }
