@@ -141,6 +141,7 @@ export default function Home() {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                  quality={60}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
                   <div className="bg-saffron/90 self-start px-2 py-1 rounded text-xs font-bold mb-2">
@@ -160,6 +161,7 @@ export default function Home() {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                  quality={60}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
                   <div className="bg-saffron/90 self-start px-2 py-1 rounded text-xs font-bold mb-2">
@@ -179,6 +181,7 @@ export default function Home() {
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                  quality={60}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end text-white">
                   <div className="bg-saffron/90 self-start px-2 py-1 rounded text-xs font-bold mb-2">
@@ -264,6 +267,7 @@ export default function Home() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    quality={60}
                   />
                 </div>
                 <h3 className="font-bold text-lg">Goa Vibes Planners</h3>
