@@ -98,7 +98,7 @@ export function Navbar() {
                     )}
 
                     {/* Mobile Menu Toggle */}
-                    <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                    <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle mobile menu">
                         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
 

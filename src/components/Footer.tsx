@@ -17,10 +17,10 @@ export function Footer() {
                         India&apos;s premier event planning ecosystem. We connect you with verified agencies to create timeless memories.
                     </p>
                     <div className="flex gap-4 pt-2">
-                        <a href="#" className="hover:text-saffron transition-colors"><Twitter className="w-5 h-5" /></a>
-                        <a href="#" className="hover:text-saffron transition-colors"><Instagram className="w-5 h-5" /></a>
-                        <a href="#" className="hover:text-saffron transition-colors"><Linkedin className="w-5 h-5" /></a>
-                        <a href="#" className="hover:text-saffron transition-colors"><Facebook className="w-5 h-5" /></a>
+                        <a href="#" className="hover:text-saffron transition-colors" aria-label="Twitter"><Twitter className="w-5 h-5" /></a>
+                        <a href="#" className="hover:text-saffron transition-colors" aria-label="Instagram"><Instagram className="w-5 h-5" /></a>
+                        <a href="#" className="hover:text-saffron transition-colors" aria-label="LinkedIn"><Linkedin className="w-5 h-5" /></a>
+                        <a href="#" className="hover:text-saffron transition-colors" aria-label="Facebook"><Facebook className="w-5 h-5" /></a>
                     </div>
                 </div>
 
